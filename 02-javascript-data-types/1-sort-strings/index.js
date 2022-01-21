@@ -1,15 +1,20 @@
 /**
  * sortStrings - sorts array of string by two criteria "asc" or "desc"
- * @param {string[]} arr - the array of strings
+ * @param {string[]} [arr=[]] arr - the array of strings
  * @param {string} [param="asc"] param - the sorting type "asc" or "desc"
  * @returns {string[]}
  */
-export function sortStrings(arr, param = 'asc') {
-  const compare = (a, b) => a.localeCompare(b, ['ru', 'en'], {caseFirst: 'upper'});
+export function sortStrings(arr = [], param = 'asc') {
+  const directions = {
+    asc: 1,
+    desc: -1
+  };
+  const direction = directions[param];
 
-  if (param === "asc") {
-    return [...arr].sort((a, b) => compare(a, b));
-  } else if (param === "desc") {
-    return [...arr].sort((a, b) => compare(b, a));
-  }
+  return makeSorting(arr, direction);
+}
+
+function makeSorting(array, direction) {
+  return [...array].sort((string1, string2) =>
+    direction * string1.localeCompare(string2, ['ru', 'en'], {caseFirst: 'upper'}));
 }
